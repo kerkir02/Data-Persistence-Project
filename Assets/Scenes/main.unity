@@ -555,8 +555,6 @@ MonoBehaviour:
   ScoreText: {fileID: 188020406}
   BestScore: {fileID: 2078529056}
   GameOverText: {fileID: 474497238}
-  highScore: 0
-  playerName: 
 --- !u!1 &455529321
 GameObject:
   m_ObjectHideFlags: 0

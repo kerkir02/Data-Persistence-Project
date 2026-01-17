@@ -19,16 +19,15 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
-    public int highScore = 0;
-    public string playerName = "Player";
-
     
     // Start is called before the first frame update
     void Start()
     {
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        
+
+        BestScore.text = Saves.Instance.BestScoreChange();
+
         int[] pointCountArray = new [] {1,1,2,2,5,5};
         for (int i = 0; i < LineCount; ++i)
         {
@@ -48,6 +47,8 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                Saves.Instance.LoadScore();
+                BestScore.text = Saves.Instance.BestScoreChange();
                 m_Started = true;
                 float randomDirection = Random.Range(-1.0f, 1.0f);
                 Vector3 forceDir = new Vector3(randomDirection, 1, 0);
@@ -61,6 +62,12 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                if(m_Points > Saves.Instance.highScore)
+                {
+                    Saves.Instance.highScore = m_Points;
+                    Saves.Instance.hsPlayerName = Saves.Instance.playerName;
+                    Saves.Instance.SaveScore();
+                }
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
@@ -74,11 +81,6 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
-        if(highScore < m_Points)
-        {
-            highScore = m_Points;
-            ScoreText.text = "Best Score : " + playerName + ": " + highScore;
-        }
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
