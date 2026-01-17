@@ -26,7 +26,10 @@ public class MainManager : MonoBehaviour
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
 
-        BestScore.text = Saves.Instance.BestScoreChange();
+        if (Saves.Instance != null)
+        {
+            BestScore.text = Saves.Instance.BestScoreChange();
+        }
 
         int[] pointCountArray = new [] {1,1,2,2,5,5};
         for (int i = 0; i < LineCount; ++i)
@@ -39,6 +42,7 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
     }
 
     private void Update()
